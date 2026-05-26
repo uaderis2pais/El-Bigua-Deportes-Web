@@ -7,10 +7,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 const MENU_ITEMS = [
   { name: 'INICIO', path: '/' },
   { name: 'CATÁLOGO', path: '/catalog' },
-  { name: 'PESCA', path: '/catalog?category=Pesca', subcategories: ['Cañas', 'Reeles', 'Señuelos', 'Cajas y Bolsos'] },
-  { name: 'CAZA', path: '/catalog?category=Caza', subcategories: ['Armas', 'Municiones', 'Indumentaria', 'Accesorios'] },
-  { name: 'NÁUTICA', path: '/catalog?category=Nautica', subcategories: ['Kayaks', 'Chalecos Salvavidas', 'Motores', 'Sogas y Anclas'] },
-  { name: 'CAMPING', path: '/catalog?category=Camping', subcategories: ['Carpas', 'Bolsas de Dormir', 'Anafes y Marmitas', 'Iluminación'] },
+  { name: 'PESCA', path: '/catalog?category=Pesca', subcategories: ['Cañas', 'Reeles', 'Señuelos'] },
+  { name: 'CAZA', path: '/catalog?category=Caza', subcategories: ['Armas', 'Municiones', 'Accesorios'] },
+  { name: 'NÁUTICA', path: '/catalog?category=Nautica', subcategories: ['Chalecos Salvavidas', 'Sogas y Anclas'] },
+  { name: 'CAMPING', path: '/catalog?category=Camping', subcategories: ['Carpas', 'Anafes y Marmitas', 'Iluminación'] },
 ];
 
 export default function Navbar({ onOpenCart }) {
