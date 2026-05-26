@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ui/ProductCard';
 import { useCatalog } from '../context/CatalogContext';
-import { SearchX, Filter, Search } from 'lucide-react';
+import { SearchX, Filter, Search, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { staggerContainer } from '../animations/variants';
 
@@ -29,14 +29,31 @@ export default function Catalog() {
     setLocalQuery(query);
   }, [query]);
 
-  const handleSearchSubmit = () => {
+  const handleSearchChange = (val) => {
+    setLocalQuery(val);
     const newParams = new URLSearchParams(searchParams);
-    if (localQuery.trim()) {
-      newParams.set('q', localQuery.trim());
+    if (val.trim()) {
+      newParams.set('q', val);
     } else {
       newParams.delete('q');
     }
-    setSearchParams(newParams);
+    setSearchParams(newParams, { replace: true });
+  };
+
+  const handleClearSearch = () => {
+    setLocalQuery('');
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete('q');
+    setSearchParams(newParams, { replace: true });
+  };
+
+  const handleClearAll = () => {
+    setSelectedCategory("Todos");
+    setSortBy('featured');
+    setLocalQuery('');
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete('q');
+    setSearchParams(newParams, { replace: true });
   };
 
   React.useEffect(() => {
@@ -109,18 +126,22 @@ export default function Catalog() {
                 type="text" 
                 placeholder="Buscar por nombre..." 
                 value={localQuery}
-                onChange={(e) => setLocalQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') handleSearchSubmit();
-                }}
+                onChange={(e) => handleSearchChange(e.target.value)}
                 className="w-full p-2 pl-3 pr-10 border border-neutral-300 dark:border-military-blue-light dark:bg-military-blue-dark dark:text-white rounded focus:outline-none focus:border-hunter-orange transition-colors"
               />
-              <button 
-                onClick={handleSearchSubmit}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-hunter-orange transition-colors"
-              >
-                <Search className="w-5 h-5" />
-              </button>
+              {localQuery ? (
+                <button 
+                  onClick={handleClearSearch}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-hunter-orange dark:hover:text-hunter-orange transition-colors"
+                  title="Limpiar búsqueda"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              ) : (
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none">
+                  <Search className="w-5 h-5" />
+                </div>
+              )}
             </div>
           </div>
 
@@ -186,7 +207,7 @@ export default function Catalog() {
               <h3 className="font-display text-2xl font-bold text-neutral-900 dark:text-white mb-2">No se encontraron productos</h3>
               <p className="text-neutral-500 dark:text-neutral-400 max-w-md">Prueba ajustando los filtros o cambiando el término de búsqueda.</p>
               <button 
-                onClick={() => { setSelectedCategory("Todos"); setSortBy('featured'); }}
+                onClick={handleClearAll}
                 className="mt-6 text-hunter-orange font-bold hover:underline"
               >
                 Limpiar Filtros
