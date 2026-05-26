@@ -3,6 +3,16 @@ import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail } from 'lucide-react';
 
 export default function Footer() {
+  const handleWhatsAppRedirect = (e) => {
+    e.preventDefault();
+    if (!e.isTrusted) {
+      console.warn('Bot detected');
+      return;
+    }
+    const realNumber = ['549', '3442', '543253'].join('');
+    window.open(`https://wa.me/${realNumber}`, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <footer className="bg-military-blue-dark text-white pt-16 pb-8 border-t-4 border-hunter-orange">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6">
@@ -24,7 +34,7 @@ export default function Footer() {
               <a href="https://www.facebook.com/share/17e2mRckfG/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-hunter-orange hover:text-white transition-all duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
               </a>
-              <a href="https://wa.me/5493442543253" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-hunter-orange hover:text-white transition-all duration-300">
+              <a href="https://wa.me/5493442000000" onClick={handleWhatsAppRedirect} className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-hunter-orange hover:text-white transition-all duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" /></svg>
               </a>
             </div>

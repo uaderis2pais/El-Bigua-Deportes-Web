@@ -28,6 +28,16 @@ const FAQS = [
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(0);
+
+  const handleWhatsAppRedirect = (e) => {
+    e.preventDefault();
+    if (!e.isTrusted) {
+      console.warn('Bot detected');
+      return;
+    }
+    const realNumber = ['549', '3442', '543253'].join('');
+    window.open(`https://wa.me/${realNumber}`, '_blank', 'noopener,noreferrer');
+  };
   const location = useLocation();
 
   if (location.pathname !== '/') return null;
@@ -83,9 +93,8 @@ export default function FAQ() {
         <h3 className="font-display font-bold text-xl mb-2 dark:text-white">¿No encontraste lo que buscabas?</h3>
         <p className="text-neutral-500 mb-6">Estamos aquí para ayudarte a elegir el mejor equipamiento.</p>
         <a
-          href="https://wa.me/5493442543253"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="https://wa.me/5493442000000"
+          onClick={handleWhatsAppRedirect}
           className="inline-block bg-hunter-orange text-white font-bold py-3 px-8 rounded hover:bg-orange-600 transition-colors uppercase tracking-wider text-sm"
         >
           Escríbenos por WhatsApp

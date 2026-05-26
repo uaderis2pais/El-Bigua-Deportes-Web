@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function Checkout() {
   const { cartItems, cartCount, clearCart } = useCart();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ name: '', phone: '', address: '', city: '' });
+  const [formData, setFormData] = useState({ name: '', phone: '', address: '', city: '', website: '' });
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const handleInputChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -15,10 +15,23 @@ export default function Checkout() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (cartItems.length === 0) return;
+    if (formData.website) {
+      console.warn("Spam detected");
+      return;
+    }
     setShowConfirmModal(true);
   };
 
-  const handleConfirmOrder = () => {
+  const handleConfirmOrder = (e) => {
+    if (e && !e.isTrusted) {
+      console.warn("Bot detected");
+      return;
+    }
+    if (formData.website) {
+      console.warn("Spam detected");
+      return;
+    }
+
     let message = `¡Hola El Biguá! Quiero realizar el siguiente pedido:\n\n*Datos del Cliente:*\nNombre: ${formData.name}\nTeléfono: ${formData.phone}\nDirección: ${formData.address}, ${formData.city}\n\n*Pedido:*\n`;
     cartItems.forEach(item => {
       message += `- ${item.quantity}x ${item.name}\n`;
@@ -26,7 +39,8 @@ export default function Checkout() {
     message += `\n¿Me confirmarían disponibilidad y precio total?`;
     
     const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/5493442668753?text=${encodedMessage}`, '_blank');
+    const realNumber = ['549', '3442', '543253'].join('');
+    window.open(`https://wa.me/${realNumber}?text=${encodedMessage}`, '_blank');
     
     clearCart();
     setShowConfirmModal(false);
@@ -55,6 +69,18 @@ export default function Checkout() {
           <div className="bg-neutral-50 dark:bg-military-blue-dark p-6 md:p-8 rounded-xl border border-neutral-200 dark:border-military-blue-light">
             <h2 className="font-display text-xl font-bold mb-6 uppercase dark:text-white">Tus Datos</h2>
             <form id="checkout-form" onSubmit={handleSubmit} className="space-y-4">
+              {/* Honeypot field to trap spam bots */}
+              <div className="hidden" aria-hidden="true">
+                <input 
+                  type="text" 
+                  name="website" 
+                  tabIndex={-1} 
+                  autoComplete="off" 
+                  value={formData.website} 
+                  onChange={handleInputChange} 
+                  placeholder="No rellenar" 
+                />
+              </div>
               <div>
                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">Nombre Completo</label>
                 <input required type="text" name="name" onChange={handleInputChange} className="w-full p-3 border border-neutral-300 dark:border-military-blue-light dark:bg-military-blue-dark dark:text-white rounded focus:outline-none focus:border-hunter-orange dark:focus:border-hunter-orange transition-colors" />
@@ -141,7 +167,7 @@ export default function Checkout() {
                   Cancelar
                 </button>
                 <button
-                  onClick={handleConfirmOrder}
+                  onClick={(e) => handleConfirmOrder(e)}
                   className="flex-1 py-3 px-4 bg-hunter-orange hover:bg-hunter-orange-hover text-white font-bold rounded transition-colors"
                 >
                   Confirmar

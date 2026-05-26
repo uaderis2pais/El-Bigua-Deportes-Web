@@ -113,6 +113,18 @@ export default function Catalog() {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('q') || '';
   const categoryParam = searchParams.get('category');
+
+  const handleWhatsAppRedirect = (e, text = '') => {
+    e.preventDefault();
+    if (!e.isTrusted) {
+      console.warn('Bot detected');
+      return;
+    }
+    const realNumber = ['549', '3442', '543253'].join('');
+    const baseUrl = `https://wa.me/${realNumber}`;
+    const url = text ? `${baseUrl}?text=${encodeURIComponent(text)}` : baseUrl;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
   
   const [selectedCategory, setSelectedCategory] = useState(categoryParam || "Todos");
   const [sortBy, setSortBy] = useState('featured');
@@ -217,14 +229,31 @@ export default function Catalog() {
 
   return (
     <div className="w-full min-h-screen py-12 md:py-20 px-4 sm:px-6 lg:px-8 max-w-screen-2xl mx-auto">
-      <div className="mb-12">
-        <h1 className="font-display text-4xl md:text-5xl font-black uppercase tracking-tight mb-4 dark:text-white">Catálogo de Productos</h1>
-        {query ? (
-          <p className="text-neutral-500 text-lg">Resultados para: <span className="font-bold text-neutral-900 dark:text-white">"{query}"</span></p>
-        ) : (
-          <p className="text-neutral-500 text-lg">Explora nuestra colección completa de equipamiento técnico.</p>
-        )}
-        <div className="w-16 h-1 bg-hunter-orange mt-6"></div>
+      <div className="mb-12 flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-neutral-50 dark:bg-military-blue-light/10 p-6 rounded-xl border border-neutral-200 dark:border-military-blue-light">
+        <div className="flex-1">
+          <h1 className="font-display text-4xl md:text-5xl font-black uppercase tracking-tight mb-4 dark:text-white">Catálogo de Productos</h1>
+          {query ? (
+            <p className="text-neutral-500 dark:text-neutral-400 text-lg">Resultados para: <span className="font-bold text-neutral-900 dark:text-white">"{query}"</span></p>
+          ) : (
+            <p className="text-neutral-500 dark:text-neutral-400 text-lg">Explora nuestra colección completa de equipamiento técnico.</p>
+          )}
+          <div className="w-16 h-1 bg-hunter-orange mt-6"></div>
+        </div>
+        
+        <div className="lg:max-w-md w-full flex flex-col sm:flex-row items-center gap-4 bg-white dark:bg-military-blue-dark p-4 rounded-lg shadow-sm border border-neutral-100 dark:border-military-blue-light/50">
+          <div className="flex-1 text-sm text-neutral-600 dark:text-neutral-300">
+            <p className="leading-relaxed">
+              Este catálogo no representa la totalidad de los productos disponibles en nuestra tienda física. Si no encontrás lo que buscás, consultanos vía WhatsApp.
+            </p>
+          </div>
+          <a 
+            href="https://wa.me/5493442000000"
+            onClick={(e) => handleWhatsAppRedirect(e, "Hola El Biguá! Estoy buscando un producto que no encuentro en el catálogo online...")}
+            className="w-full sm:w-auto bg-[#25D366] hover:bg-[#128C7E] text-white font-bold text-xs uppercase tracking-wider px-6 py-3 rounded flex items-center justify-center transition-colors flex-shrink-0"
+          >
+            Consultar
+          </a>
+        </div>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8 items-start">
