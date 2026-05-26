@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-military-blue: #23354E;
+  --color-military-blue-light: #2E4566;
+  --color-military-blue-dark: #172436;
+  --color-hunter-orange: #FF5A00;
+  --color-hunter-orange-hover: #E04D00;
+  
+  --font-sans: "Inter", sans-serif;
+  --font-display: "Oswald", sans-serif;
+  --font-logo: "Lobster", cursive;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html, body {
+    @apply font-sans antialiased text-neutral-900 bg-neutral-50 dark:bg-military-blue-dark dark:text-neutral-100;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-wide;
+  }
+}

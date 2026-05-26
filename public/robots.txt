@@ -1,0 +1,13 @@
+# robots.txt - El Biguá Deportes
+# Concepción del Uruguay, Entre Ríos, Argentina
+
+User-agent: *
+Allow: /
+Allow: /catalog
+Allow: /contact
+
+Disallow: /checkout
+Disallow: /src/
+
+# Sitemap
+Sitemap: https://elbiguadeportes.com.ar/sitemap.xml
