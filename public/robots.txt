@@ -10,4 +10,4 @@ Disallow: /checkout
 Disallow: /src/
 
 # Sitemap
-Sitemap: https://elbiguadeportes.com.ar/sitemap.xml
+Sitemap: https://el-bigua-deportes-web.vercel.app/sitemap.xml

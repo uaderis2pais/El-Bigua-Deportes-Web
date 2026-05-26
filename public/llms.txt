@@ -25,14 +25,14 @@ La tienda opera bajo un modelo de **consulta de precio**. Los precios y la dispo
 
 - **Ubicación**: Concepción del Uruguay, Entre Ríos, Argentina
 - **WhatsApp**: Disponible para consultas de precio y disponibilidad
-- **Catálogo web**: https://elbiguadeportes.com.ar/catalog
+- **Catálogo web**: https://el-bigua-deportes-web.vercel.app/catalog
 
 ## Páginas disponibles
 
-- [Inicio](https://elbiguadeportes.com.ar/): Página principal con novedades y artículos populares
-- [Catálogo](https://elbiguadeportes.com.ar/catalog): Catálogo completo con filtros por categoría y búsqueda
-- [Contacto](https://elbiguadeportes.com.ar/contact): Información de contacto y ubicación
-- [Preguntas Frecuentes](https://elbiguadeportes.com.ar/#faq): Respuestas a dudas comunes sobre el proceso de compra
+- [Inicio](https://el-bigua-deportes-web.vercel.app/): Página principal con novedades y artículos populares
+- [Catálogo](https://el-bigua-deportes-web.vercel.app/catalog): Catálogo completo con filtros por categoría y búsqueda
+- [Contacto](https://el-bigua-deportes-web.vercel.app/contact): Información de contacto y ubicación
+- [Preguntas Frecuentes](https://el-bigua-deportes-web.vercel.app/#faq): Respuestas a dudas comunes sobre el proceso de compra
 
 ## Palabras clave relevantes
 
