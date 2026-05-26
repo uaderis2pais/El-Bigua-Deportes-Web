@@ -40,4 +40,4 @@ Podés explorar todo nuestro catálogo online y agregar productos a tu carrito. 
 
 Para consultas de precio y disponibilidad, comunicarse por WhatsApp.
 
-Sitio web: [https://elbiguadeportes.com.ar](https://elbiguadeportes.com.ar)
+Sitio web: [https://el-bigua-deportes-web.vercel.app](https://el-bigua-deportes-web.vercel.app)
