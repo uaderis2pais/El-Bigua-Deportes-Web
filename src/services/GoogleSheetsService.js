@@ -46,11 +46,36 @@ export const GoogleSheetsService = {
             const formattedProducts = results.data.map(row => {
               const rawIsNew = row.isNew !== undefined ? row.isNew : row.esNuevo;
               const rawIsPopular = row.isPopular !== undefined ? row.isPopular : (row.esPopular !== undefined ? row.esPopular : row.destacado);
+              
+              // Parsear y dividir categorías por delimitadores (coma, punto, guion bajo, barra, pipe)
+              const rawCategory = row.category || row.categoria || 'Otros';
+              const parsedCategories = String(rawCategory)
+                .split(/[.,_\/|]+/)
+                .map(c => c.trim())
+                .filter(Boolean);
+
+              const normalizedCategories = parsedCategories.map(cat => {
+                const normalized = cat
+                  .normalize("NFD")
+                  .replace(/[\u0300-\u036f]/g, "")
+                  .toLowerCase();
+                
+                if (normalized === 'pesca') return 'Pesca';
+                if (normalized === 'caza') return 'Caza';
+                if (normalized === 'camping') return 'Camping';
+                if (normalized === 'nautica') return 'Nautica';
+                
+                return cat.charAt(0).toUpperCase() + cat.slice(1);
+              });
+
+              const finalCategories = normalizedCategories.length > 0 ? normalizedCategories : ['Otros'];
+
               return {
                 id: parseInt(row.id),
                 name: row.name || row.nombre || 'Sin nombre',
                 price: parseFloat(row.price || row.precio) || 0,
-                category: row.category || row.categoria || 'Otros',
+                category: finalCategories.join(', '),
+                categories: finalCategories,
                 description: row.description || row.descripcion || '',
                 image: row.image || row.imagen || 'https://via.placeholder.com/600x600?text=Sin+Imagen',
                 isNew: String(rawIsNew).trim().toLowerCase() === 'true' || rawIsNew === 1 || rawIsNew === true || String(rawIsNew).trim().toUpperCase() === 'TRUE',

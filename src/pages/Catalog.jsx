@@ -181,7 +181,7 @@ export default function Catalog() {
         const parentCategory = SUBCATEGORY_PARENT_CATEGORIES[normalizedQuery];
         result = result.filter(product => {
           // Enforce main category constraint if defined
-          if (parentCategory && normalizeText(product.category) !== normalizeText(parentCategory)) {
+          if (parentCategory && (!product.categories || !product.categories.some(cat => normalizeText(cat) === normalizeText(parentCategory)))) {
             return false;
           }
 
@@ -206,7 +206,11 @@ export default function Catalog() {
 
     // Filter by category
     if (selectedCategory !== "Todos") {
-      result = result.filter(product => product.category === selectedCategory);
+      result = result.filter(product => 
+        product.categories 
+          ? product.categories.includes(selectedCategory) 
+          : product.category === selectedCategory
+      );
     }
 
     // Sort
