@@ -45,6 +45,7 @@ export const GoogleSheetsService = {
             // Aceptamos tanto los nombres de columna en inglés como en español
             const formattedProducts = results.data.map(row => {
               const rawIsNew = row.isNew !== undefined ? row.isNew : row.esNuevo;
+              const rawIsPopular = row.isPopular !== undefined ? row.isPopular : (row.esPopular !== undefined ? row.esPopular : row.destacado);
               return {
                 id: parseInt(row.id),
                 name: row.name || row.nombre || 'Sin nombre',
@@ -52,7 +53,8 @@ export const GoogleSheetsService = {
                 category: row.category || row.categoria || 'Otros',
                 description: row.description || row.descripcion || '',
                 image: row.image || row.imagen || 'https://via.placeholder.com/600x600?text=Sin+Imagen',
-                isNew: String(rawIsNew).trim().toLowerCase() === 'true' || rawIsNew === 1 || rawIsNew === true || String(rawIsNew).trim().toUpperCase() === 'TRUE'
+                isNew: String(rawIsNew).trim().toLowerCase() === 'true' || rawIsNew === 1 || rawIsNew === true || String(rawIsNew).trim().toUpperCase() === 'TRUE',
+                isPopular: rawIsPopular !== undefined ? (String(rawIsPopular).trim().toLowerCase() === 'true' || rawIsPopular === 1 || rawIsPopular === true || String(rawIsPopular).trim().toUpperCase() === 'TRUE') : false
               };
             }).filter(product => !isNaN(product.id)); // Filtrar filas inválidas
 

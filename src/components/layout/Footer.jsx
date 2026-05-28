@@ -67,7 +67,7 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-neutral-400 text-sm">
                 <MapPin className="w-5 h-5 text-hunter-orange flex-shrink-0" />
-                <span>EVA PERON 85<br />Concepción del Uruguay</span>
+                <span>EVA PERON 85<br />Concepción del Uruguay (Cdelu)</span>
               </li>
               <li className="flex items-center gap-3 text-neutral-400 text-sm">
                 <Phone className="w-5 h-5 text-hunter-orange flex-shrink-0" />

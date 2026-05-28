@@ -22,7 +22,7 @@ export default function ProductCard({ product }) {
     <motion.div variants={fadeIn} className="group cursor-pointer">
       <Link to={`/producto/${product.id}`} className="block relative aspect-[4/5] bg-neutral-100 dark:bg-military-blue border border-neutral-200 dark:border-military-blue-light shadow-sm hover:shadow-xl transition-all duration-300 mb-4 overflow-hidden rounded">
         {product.isNew && <span className="absolute top-2 left-2 bg-hunter-orange text-white text-[10px] font-bold uppercase px-2 py-1 z-10">New</span>}
-        <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+        <img src={product.image} alt={product.name} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
         <button 
           onClick={handleAddToCart}
           className={`absolute bottom-4 left-4 right-4 font-bold text-sm py-3 transition-all duration-300 shadow-lg hidden md:flex items-center justify-center gap-2 uppercase z-20

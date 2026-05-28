@@ -24,7 +24,7 @@ export default function ContactSection() {
                 </div>
                 <div>
                   <h4 className="font-bold text-neutral-900 dark:text-neutral-200 uppercase text-sm mb-1">Ubicación</h4>
-                  <p className="text-neutral-600 dark:text-neutral-400">EVA PERON 85, CP 3260<br />Concepción del Uruguay, Entre Ríos</p>
+                  <p className="text-neutral-600 dark:text-neutral-400">EVA PERON 85, CP 3260<br />Concepción del Uruguay (Cdelu), Entre Ríos</p>
                 </div>
               </div>
 

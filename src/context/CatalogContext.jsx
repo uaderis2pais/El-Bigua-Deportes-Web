@@ -30,7 +30,10 @@ export const CatalogProvider = ({ children }) => {
     fetchCatalog();
   }, []);
 
-  const popularProducts = products.filter(p => !p.isNew).slice(0, 4);
+  const markedPopular = products.filter(p => p.isPopular);
+  const popularProducts = markedPopular.length > 0 
+    ? markedPopular.slice(0, 4) 
+    : products.filter(p => !p.isNew).slice(0, 4);
   const newProducts = products.filter(p => p.isNew).slice(0, 12);
 
   const value = {

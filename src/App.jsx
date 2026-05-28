@@ -1,19 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ContactSection from './components/layout/ContactSection';
 import CartModal from './components/ui/CartModal';
-import Home from './pages/Home';
-import Catalog from './pages/Catalog';
-import Contact from './pages/Contact';
-import Checkout from './pages/Checkout';
-import ProductDetail from './pages/ProductDetail';
 import FAQ from './pages/FAQ';
 import ScrollToTop from './components/layout/ScrollToTop';
 import { CartProvider } from './context/CartContext';
 import { CatalogProvider } from './context/CatalogContext';
 import { Toaster } from 'react-hot-toast';
+
+// Lazy loaded page components
+const Home = lazy(() => import('./pages/Home'));
+const Catalog = lazy(() => import('./pages/Catalog'));
+const Contact = lazy(() => import('./pages/Contact'));
+const Checkout = lazy(() => import('./pages/Checkout'));
+const ProductDetail = lazy(() => import('./pages/ProductDetail'));
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -27,13 +29,19 @@ function App() {
           <Toaster position="bottom-right" />
           <Navbar onOpenCart={() => setIsCartOpen(true)} />
           <main className="flex-1">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/catalog" element={<Catalog />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/producto/:id" element={<ProductDetail />} />
-            </Routes>
+            <Suspense fallback={
+              <div className="min-h-[50vh] flex items-center justify-center bg-white dark:bg-military-blue-dark transition-colors duration-300">
+                <div className="animate-spin rounded-full h-10 w-10 border-2 border-hunter-orange border-t-transparent"></div>
+              </div>
+            }>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/catalog" element={<Catalog />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/producto/:id" element={<ProductDetail />} />
+              </Routes>
+            </Suspense>
           </main>
           <ContactSection />
           <FAQ />

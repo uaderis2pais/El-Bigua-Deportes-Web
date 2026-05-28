@@ -46,6 +46,7 @@ export default function Home() {
               <img 
                 src="/frente.webp" 
                 alt="Frente del local El Biguá" 
+                loading="lazy"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-military-blue-dark/20 mix-blend-multiply"></div>
@@ -94,39 +95,39 @@ export default function Home() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <motion.div 
+             <motion.div 
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
               className="md:col-span-2 md:row-span-2 h-64 md:h-auto relative rounded-xl overflow-hidden shadow-lg group"
             >
-              <img src="/dentro1.webp" alt="Interior de la tienda El Biguá" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <img src="/dentro1.webp" alt="Interior de la tienda El Biguá" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             </motion.div>
             
             <motion.div 
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}
               className="h-64 relative rounded-xl overflow-hidden shadow-lg group"
             >
-              <img src="/cartel.webp" alt="Cartel de El Biguá" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <img src="/cartel.webp" alt="Cartel de El Biguá" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             </motion.div>
             
             <motion.div 
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2 }}
               className="h-64 relative rounded-xl overflow-hidden shadow-lg group"
             >
-              <img src="/dentro2.webp" alt="Artículos de pesca y caza" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <img src="/dentro2.webp" alt="Artículos de pesca y caza" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             </motion.div>
 
             <motion.div 
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.3 }}
               className="h-64 relative rounded-xl overflow-hidden shadow-lg group"
             >
-              <img src="/dentro3.webp" alt="Indumentaria y accesorios" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <img src="/dentro3.webp" alt="Indumentaria y accesorios" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             </motion.div>
             
             <motion.div 
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.4 }}
               className="md:col-span-2 h-64 relative rounded-xl overflow-hidden shadow-lg group"
             >
-              <img src="/dentro4.webp" alt="Más artículos del local" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <img src="/dentro4.webp" alt="Más artículos del local" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             </motion.div>
           </div>
         </div>
