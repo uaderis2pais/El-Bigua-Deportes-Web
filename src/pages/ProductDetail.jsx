@@ -6,6 +6,8 @@ import { ShoppingCart, Check, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 
+import useSEO from '../hooks/useSEO';
+
 export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -15,6 +17,12 @@ export default function ProductDetail() {
   const [isAdded, setIsAdded] = useState(false);
 
   const product = products.find(p => p.id === parseInt(id));
+
+  useSEO({
+    title: product ? `${product.name} | El Biguá Deportes` : 'Producto no encontrado | El Biguá Deportes',
+    description: product ? `${product.description || 'Equipamiento de alta calidad diseñado para soportar las condiciones más exigentes. Consultá precio y disponibilidad vía WhatsApp.'}` : 'El producto solicitado no fue encontrado en nuestro catálogo dinámico.',
+    canonicalUrl: product ? `https://el-bigua-deportes-web.vercel.app/producto/${product.id}` : undefined
+  });
 
   if (!product) {
     return (

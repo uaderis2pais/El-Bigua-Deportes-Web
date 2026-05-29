@@ -8,8 +8,15 @@ import HeroCarousel from '../components/ui/HeroCarousel';
 import { useCatalog } from '../context/CatalogContext';
 import { fadeIn, staggerContainer } from '../animations/variants';
 
+import useSEO from '../hooks/useSEO';
+
 export default function Home() {
   const { popularProducts, newProducts, isLoading } = useCatalog();
+
+  useSEO({
+    title: 'El Biguá Deportes | Pesca, Caza, Náutica y Camping – Concepción del Uruguay',
+    description: 'Tienda especializada en artículos de pesca, caza, náutica y camping en Concepción del Uruguay, Entre Ríos. Reeles, cañas, señuelos, carpas, municiones y más. Consultá por WhatsApp.'
+  });
 
   return (
     <div className="w-full">

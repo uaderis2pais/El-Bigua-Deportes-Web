@@ -4,11 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import { ShoppingBag, ArrowLeft, AlertTriangle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+import useSEO from '../hooks/useSEO';
+
 export default function Checkout() {
   const { cartItems, cartCount, clearCart } = useCart();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ name: '', phone: '', address: '', city: '', website: '' });
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  useSEO({
+    title: 'Finalizar Compra | El Biguá Deportes',
+    description: 'Completá tus datos para finalizar tu pedido y coordinar el pago y envío directamente con nosotros por WhatsApp.'
+  });
 
   const handleInputChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 

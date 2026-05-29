@@ -1,6 +1,10 @@
-import React from 'react';
+import useSEO from '../hooks/useSEO';
 
 export default function Contact() {
+  useSEO({
+    title: 'Contacto | El Biguá Deportes',
+    description: 'Contactanos por WhatsApp o visitanos en Concepción del Uruguay, Entre Ríos para obtener el mejor asesoramiento en pesca, caza y camping.'
+  });
   return (
     <div className="min-h-[50vh] flex items-center justify-center py-20 px-4 transition-colors duration-300">
       <div className="text-center">

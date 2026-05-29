@@ -108,11 +108,42 @@ const SUBCATEGORY_PARENT_CATEGORIES = {
   "iluminacion": "Camping"
 };
 
+import useSEO from '../hooks/useSEO';
+
 export default function Catalog() {
   const { products, isLoading } = useCatalog();
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('q') || '';
   const categoryParam = searchParams.get('category');
+  
+  const [selectedCategory, setSelectedCategory] = useState(categoryParam || "Todos");
+
+  const seoTitle = useMemo(() => {
+    if (query) return `Búsqueda: ${query} | El Biguá Deportes`;
+    if (selectedCategory && selectedCategory !== "Todos") return `Artículos de ${selectedCategory} | El Biguá Deportes`;
+    return 'Catálogo de Productos | El Biguá Deportes';
+  }, [query, selectedCategory]);
+
+  const seoDescription = useMemo(() => {
+    if (selectedCategory && selectedCategory !== "Todos") {
+      return `Explora nuestro catálogo de artículos de ${selectedCategory} en El Biguá Deportes. Reeles, cañas, municiones, indumentaria, carpas, anafes y más.`;
+    }
+    return 'Explora nuestro catálogo dinámico de artículos para pesca, caza, camping y náutica. Consulta disponibilidad y precios en tiempo real vía WhatsApp.';
+  }, [selectedCategory]);
+
+  const seoCanonical = useMemo(() => {
+    const baseUrl = 'https://el-bigua-deportes-web.vercel.app/catalog';
+    if (selectedCategory && selectedCategory !== "Todos") {
+      return `${baseUrl}?category=${selectedCategory}`;
+    }
+    return baseUrl;
+  }, [selectedCategory]);
+
+  useSEO({
+    title: seoTitle,
+    description: seoDescription,
+    canonicalUrl: seoCanonical
+  });
 
   const handleWhatsAppRedirect = (e, text = '') => {
     e.preventDefault();
@@ -126,7 +157,6 @@ export default function Catalog() {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
   
-  const [selectedCategory, setSelectedCategory] = useState(categoryParam || "Todos");
   const [sortBy, setSortBy] = useState('featured');
   const [showFilters, setShowFilters] = useState(false);
   const [localQuery, setLocalQuery] = useState(query);
