@@ -43,12 +43,44 @@ export const GoogleSheetsService = {
 
             // Formatear los datos para que coincidan con la estructura esperada por React
             // Aceptamos tanto los nombres de columna en inglés como en español
-            const formattedProducts = results.data.map(row => {
+            const formattedProducts = [];
+
+            results.data.forEach((row, index) => {
+              // Ignorar filas completamente vacías (muy común al exportar hojas de Google)
+              const hasAnyData = Object.values(row).some(val => val !== null && val !== undefined && String(val).trim() !== '');
+              if (!hasAnyData) return;
+
+              const rawId = row.id;
+              const rawName = row.name !== undefined ? row.name : row.nombre;
+              const rawPrice = row.price !== undefined ? row.price : row.precio;
+              const rawCategory = row.category !== undefined ? row.category : row.categoria;
+              const rawDescription = row.description !== undefined ? row.description : row.descripcion;
+              const rawImage = row.image !== undefined ? row.image : row.imagen;
               const rawIsNew = row.isNew !== undefined ? row.isNew : row.esNuevo;
               const rawIsPopular = row.isPopular !== undefined ? row.isPopular : (row.esPopular !== undefined ? row.esPopular : row.destacado);
-              
+
+              const isEmpty = (val) => {
+                if (val === undefined || val === null) return true;
+                if (typeof val === 'string' && val.trim() === '') return true;
+                return false;
+              };
+
+              const missingFields = [];
+              if (isEmpty(rawId) || isNaN(parseInt(rawId))) missingFields.push('id');
+              if (isEmpty(rawName)) missingFields.push('nombre/name');
+              if (isEmpty(rawPrice) || isNaN(parseFloat(rawPrice))) missingFields.push('precio/price');
+              if (isEmpty(rawCategory)) missingFields.push('categoria/category');
+              if (isEmpty(rawDescription)) missingFields.push('descripcion/description');
+              if (isEmpty(rawImage)) missingFields.push('imagen/image');
+
+              if (missingFields.length > 0) {
+                // Fila CSV es index + 2 (1 de encabezado, 1 por índice base 0)
+                const rowIdentifier = !isEmpty(rawId) ? `ID: ${rawId}` : `Fila CSV: ${index + 2}`;
+                console.warn(`[Catálogo] Producto ignorado por campos incompletos (${rowIdentifier}). Campos faltantes: ${missingFields.join(', ')}`);
+                return;
+              }
+
               // Parsear y dividir categorías por delimitadores (coma, punto, guion bajo, barra, pipe)
-              const rawCategory = row.category || row.categoria || 'Otros';
               const parsedCategories = String(rawCategory)
                 .split(/[.,_\/|]+/)
                 .map(c => c.trim())
@@ -70,18 +102,18 @@ export const GoogleSheetsService = {
 
               const finalCategories = normalizedCategories.length > 0 ? normalizedCategories : ['Otros'];
 
-              return {
-                id: parseInt(row.id),
-                name: row.name || row.nombre || 'Sin nombre',
-                price: parseFloat(row.price || row.precio) || 0,
+              formattedProducts.push({
+                id: parseInt(rawId),
+                name: String(rawName).trim(),
+                price: parseFloat(rawPrice),
                 category: finalCategories.join(', '),
                 categories: finalCategories,
-                description: row.description || row.descripcion || '',
-                image: row.image || row.imagen || 'https://via.placeholder.com/600x600?text=Sin+Imagen',
+                description: String(rawDescription).trim(),
+                image: String(rawImage).trim(),
                 isNew: String(rawIsNew).trim().toLowerCase() === 'true' || rawIsNew === 1 || rawIsNew === true || String(rawIsNew).trim().toUpperCase() === 'TRUE',
                 isPopular: rawIsPopular !== undefined ? (String(rawIsPopular).trim().toLowerCase() === 'true' || rawIsPopular === 1 || rawIsPopular === true || String(rawIsPopular).trim().toUpperCase() === 'TRUE') : false
-              };
-            }).filter(product => !isNaN(product.id)); // Filtrar filas inválidas
+              });
+            }); // Filtrar filas inválidas
 
             resolve(formattedProducts);
           },
