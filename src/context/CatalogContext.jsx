@@ -17,7 +17,9 @@ export const CatalogProvider = ({ children }) => {
     setError(null);
     try {
       const data = await GoogleSheetsService.fetchProducts();
-      setProducts(data);
+      // Ordenar por ID descendente (del más nuevo al más viejo)
+      const sortedData = [...data].sort((a, b) => b.id - a.id);
+      setProducts(sortedData);
     } catch (err) {
       setError('Error al cargar el catálogo.');
       console.error(err);
@@ -34,7 +36,7 @@ export const CatalogProvider = ({ children }) => {
   const popularProducts = markedPopular.length > 0 
     ? markedPopular.slice(0, 4) 
     : products.filter(p => !p.isNew).slice(0, 4);
-  const newProducts = products.filter(p => p.isNew).slice(0, 12);
+  const newProducts = products.filter(p => p.isNew).slice(0, 16);
 
   const value = {
     products,
