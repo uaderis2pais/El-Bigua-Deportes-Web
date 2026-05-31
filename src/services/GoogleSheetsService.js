@@ -74,6 +74,12 @@ export const GoogleSheetsService = {
               if (isEmpty(rawImage)) missingFields.push('imagen/image');
 
               if (missingFields.length > 0) {
+                // Si faltan casi todos los campos o no tiene ni ID ni Nombre, es una fila vacía o por defecto del Excel.
+                // La ignoramos en silencio para no inundar la consola de advertencias.
+                if (missingFields.length >= 5 || (isEmpty(rawId) && isEmpty(rawName))) {
+                  return;
+                }
+
                 // Fila CSV es index + 2 (1 de encabezado, 1 por índice base 0)
                 const rowIdentifier = !isEmpty(rawId) ? `ID: ${rawId}` : `Fila CSV: ${index + 2}`;
                 console.warn(`[Catálogo] Producto ignorado por campos incompletos (${rowIdentifier}). Campos faltantes: ${missingFields.join(', ')}`);

@@ -29,7 +29,7 @@ function App() {
     <CatalogProvider>
       <CartProvider>
         <Router>
-        <div className="min-h-screen flex flex-col overflow-x-hidden transition-colors duration-300">
+        <div className="min-h-screen flex flex-col transition-colors duration-300">
           <ScrollToTop />
           <Toaster position="bottom-right" />
           <Navbar onOpenCart={() => setIsCartOpen(true)} />
