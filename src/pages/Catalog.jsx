@@ -109,6 +109,7 @@ const SUBCATEGORY_PARENT_CATEGORIES = {
 };
 
 import useSEO from '../hooks/useSEO';
+import { trackEvent } from '../utils/analytics';
 
 export default function Catalog() {
   const { products, isLoading } = useCatalog();
@@ -151,6 +152,10 @@ export default function Catalog() {
       console.warn('Bot detected');
       return;
     }
+    trackEvent('contact', {
+      method: 'WhatsApp',
+      content: text ? 'Consulta de producto no encontrado' : 'Consulta general del catálogo'
+    });
     const realNumber = ['549', '3442', '543253'].join('');
     const baseUrl = `https://wa.me/${realNumber}`;
     const url = text ? `${baseUrl}?text=${encodeURIComponent(text)}` : baseUrl;

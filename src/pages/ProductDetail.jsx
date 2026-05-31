@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 
 import useSEO from '../hooks/useSEO';
+import { trackEvent } from '../utils/analytics';
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -23,6 +24,24 @@ export default function ProductDetail() {
     description: product ? `${product.description || 'Equipamiento de alta calidad diseñado para soportar las condiciones más exigentes. Consultá precio y disponibilidad vía WhatsApp.'}` : 'El producto solicitado no fue encontrado en nuestro catálogo dinámico.',
     canonicalUrl: product ? `https://el-bigua-deportes-web.vercel.app/producto/${product.id}` : undefined
   });
+
+  React.useEffect(() => {
+    if (product) {
+      trackEvent('view_item', {
+        currency: 'ARS',
+        value: product.price || 0,
+        items: [
+          {
+            item_id: product.id,
+            item_name: product.name,
+            item_category: product.category,
+            price: product.price || 0,
+            quantity: 1
+          }
+        ]
+      });
+    }
+  }, [product]);
 
   if (!product) {
     return (

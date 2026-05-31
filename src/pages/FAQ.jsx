@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
+import { trackEvent } from '../utils/analytics';
 
 const FAQS = [
   {
@@ -35,6 +36,10 @@ export default function FAQ() {
       console.warn('Bot detected');
       return;
     }
+    trackEvent('contact', {
+      method: 'WhatsApp',
+      content: 'Consulta desde sección de FAQ'
+    });
     const realNumber = ['549', '3442', '543253'].join('');
     window.open(`https://wa.me/${realNumber}`, '_blank', 'noopener,noreferrer');
   };

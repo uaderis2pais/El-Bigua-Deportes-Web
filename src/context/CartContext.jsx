@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { trackEvent } from '../utils/analytics';
 
 const CartContext = createContext();
 
@@ -13,6 +14,20 @@ export function CartProvider({ children }) {
   }, [cartItems]);
 
   const addToCart = (product) => {
+    trackEvent('add_to_cart', {
+      currency: 'ARS',
+      value: product.price || 0,
+      items: [
+        {
+          item_id: product.id,
+          item_name: product.name,
+          item_category: product.category,
+          price: product.price || 0,
+          quantity: 1
+        }
+      ]
+    });
+
     setCartItems((prevItems) => {
       const existingItem = prevItems.find((item) => item.id === product.id);
       if (existingItem) {

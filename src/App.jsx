@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
@@ -9,6 +9,7 @@ import ScrollToTop from './components/layout/ScrollToTop';
 import { CartProvider } from './context/CartContext';
 import { CatalogProvider } from './context/CatalogContext';
 import { Toaster } from 'react-hot-toast';
+import { initGA } from './utils/analytics';
 
 // Lazy loaded page components
 const Home = lazy(() => import('./pages/Home'));
@@ -19,6 +20,10 @@ const ProductDetail = lazy(() => import('./pages/ProductDetail'));
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  useEffect(() => {
+    initGA();
+  }, []);
 
   return (
     <CatalogProvider>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail } from 'lucide-react';
+import { trackEvent } from '../../utils/analytics';
 
 export default function Footer() {
   const handleWhatsAppRedirect = (e) => {
@@ -9,6 +10,10 @@ export default function Footer() {
       console.warn('Bot detected');
       return;
     }
+    trackEvent('contact', {
+      method: 'WhatsApp',
+      content: 'Consulta desde el Footer de la página'
+    });
     const realNumber = ['549', '3442', '543253'].join('');
     window.open(`https://wa.me/${realNumber}`, '_blank', 'noopener,noreferrer');
   };

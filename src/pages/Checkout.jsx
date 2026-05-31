@@ -5,6 +5,7 @@ import { ShoppingBag, ArrowLeft, AlertTriangle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import useSEO from '../hooks/useSEO';
+import { trackEvent } from '../utils/analytics';
 
 export default function Checkout() {
   const { cartItems, cartCount, clearCart } = useCart();
@@ -16,6 +17,22 @@ export default function Checkout() {
     title: 'Finalizar Compra | El Biguá Deportes',
     description: 'Completá tus datos para finalizar tu pedido y coordinar el pago y envío directamente con nosotros por WhatsApp.'
   });
+
+  React.useEffect(() => {
+    if (cartItems.length > 0) {
+      trackEvent('begin_checkout', {
+        currency: 'ARS',
+        value: cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0),
+        items: cartItems.map(item => ({
+          item_id: item.id,
+          item_name: item.name,
+          item_category: item.category,
+          price: item.price || 0,
+          quantity: item.quantity
+        }))
+      });
+    }
+  }, []);
 
   const handleInputChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -38,6 +55,20 @@ export default function Checkout() {
       console.warn("Spam detected");
       return;
     }
+
+    // Registrar conversión en GA4
+    trackEvent('purchase', {
+      transaction_id: `T_${Date.now()}`,
+      currency: 'ARS',
+      value: cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0),
+      items: cartItems.map(item => ({
+        item_id: item.id,
+        item_name: item.name,
+        item_category: item.category,
+        price: item.price || 0,
+        quantity: item.quantity
+      }))
+    });
 
     let message = `¡Hola El Biguá! Quiero realizar el siguiente pedido:\n\n*Datos del Cliente:*\nNombre: ${formData.name}\nTeléfono: ${formData.phone}\nDirección: ${formData.address}, ${formData.city}\n\n*Pedido:*\n`;
     cartItems.forEach(item => {
