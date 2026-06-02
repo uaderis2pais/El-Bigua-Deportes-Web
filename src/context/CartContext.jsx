@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { trackEvent } from '../utils/analytics';
+import { tracker } from '../utils/tracker';
 
 const CartContext = createContext();
 
@@ -27,6 +28,9 @@ export function CartProvider({ children }) {
         }
       ]
     });
+
+    // Registrar interacción (agregar al carrito) en el Excel
+    tracker.trackProduct(product.id, 'cart');
 
     setCartItems((prevItems) => {
       const existingItem = prevItems.find((item) => item.id === product.id);

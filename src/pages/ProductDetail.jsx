@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 
 import useSEO from '../hooks/useSEO';
 import { trackEvent } from '../utils/analytics';
+import { tracker } from '../utils/tracker';
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -40,6 +41,9 @@ export default function ProductDetail() {
           }
         ]
       });
+      
+      // Registrar interacción (click/vista) en el Excel
+      tracker.trackProduct(product.id, 'click');
     }
   }, [product]);
 

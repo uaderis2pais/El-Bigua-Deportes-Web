@@ -32,10 +32,28 @@ export const CatalogProvider = ({ children }) => {
     fetchCatalog();
   }, []);
 
-  const markedPopular = products.filter(p => p.isPopular);
-  const popularProducts = markedPopular.length > 0 
-    ? markedPopular.slice(0, 4) 
-    : products.filter(p => !p.isNew).slice(0, 4);
+  // Calcular productos populares dinámicamente
+  const manuallyMarked = products.filter(p => p.isPopular);
+  const getPopularityScore = (p) => (p.clicks || 0) + (p.cartAdditions || 0) * 5;
+  const remainingProducts = products.filter(p => !p.isPopular);
+  
+  // Ordenar el resto de productos por popularidad (clicks + compras*5)
+  const sortedByPopularity = [...remainingProducts].sort((a, b) => getPopularityScore(b) - getPopularityScore(a));
+  
+  // Detectar si hay interacciones registradas en el catálogo
+  const hasInteraction = products.some(p => (p.clicks || 0) > 0 || (p.cartAdditions || 0) > 0);
+  
+  let popularProducts = [];
+  if (manuallyMarked.length >= 4) {
+    popularProducts = manuallyMarked.slice(0, 4);
+  } else {
+    const needed = 4 - manuallyMarked.length;
+    const fillers = hasInteraction
+      ? sortedByPopularity.slice(0, needed)
+      : remainingProducts.filter(p => !p.isNew).slice(0, needed);
+    popularProducts = [...manuallyMarked, ...fillers];
+  }
+
   const newProducts = products.filter(p => p.isNew).slice(0, 16);
 
   const value = {
