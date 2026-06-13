@@ -75,9 +75,11 @@ export default function ProductDetail() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
         {/* Imagen */}
-        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="aspect-square bg-neutral-100 rounded-xl overflow-hidden relative">
-          {product.isNew && <span className="absolute top-4 left-4 bg-hunter-orange text-white text-xs font-bold uppercase px-3 py-1 z-10">New</span>}
-          <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="aspect-square bg-white dark:bg-military-blue border border-neutral-100 dark:border-military-blue-light shadow-lg rounded-2xl overflow-hidden relative">
+          {product.isNew && <span className="absolute top-4 left-4 bg-hunter-orange text-white text-xs font-bold uppercase px-3 py-1 z-10 rounded-sm tracking-wider shadow-sm">New</span>}
+          <div className="w-full h-full p-6 md:p-12 flex items-center justify-center bg-neutral-50 dark:bg-black/20">
+            <img src={product.image} alt={product.name} className="w-full h-full object-contain mix-blend-multiply dark:mix-blend-normal drop-shadow-md hover:scale-105 transition-transform duration-700 ease-out" />
+          </div>
         </motion.div>
 
         {/* Detalles */}
